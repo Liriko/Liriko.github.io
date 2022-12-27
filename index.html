@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="style.css">
+    <title>Encriptador de texto</title>
+</head>
+<body>
+    <header>
+    </header>
+    <main class="container">
+
+        <div class="título">
+            <h1>Encriptador de texto</h1>
+        </div>
+
+        <div class="cajas">
+            <div class="caja1">
+                <textarea class="borde" name="area" id="texto" cols="30" rows="20" placeholder="Ingrese el texto aquí (Solo letras en minúsculas, sin acentos"></textarea>
+            </div> 
+            <div class="botonera">
+                <button id="encriptar" class="btn-enc botones">
+                    Encriptar
+                </button>
+                <button id="desencriptar" class="btn-denc botones">
+                    <span>
+                    Desencriptar
+                    </span>
+                </button>
+                <button id="borrar" class="btn-borrar botones">
+                    <span>
+                    Borrar
+                    </span>
+                </button>
+                <button id="copiar" class="btn-copy botones">
+                    <span>
+                    Copiar
+                    </span>
+                </button>
+            </div>
+            <div class="caja2">
+                <textarea class="borde" name="area" id="textoEncriptado" cols="30" rows="20"
+                style="color: rgb(255, 255, 255)"></textarea>
+            </div>
+        </div>
+    </main>
+    <footer>
+    </footer>
+</body>
+</html>
+
+<script>
+
+    let mensajeEntrada = document.querySelector("#texto");
+    let botonEncriptar = document.querySelector("#encriptar");
+    let botonDesencriptar = document.querySelector("#desencriptar");
+    let botonBorrar = document.querySelector("#borrar")
+    let botonCopiar = document.querySelector("#copiar");
+    let mensajeSalida = document.querySelector("#textoEncriptado");
+
+    botonEncriptar.onclick = encriptarTexto;
+    botonDesencriptar.onclick = desencriptarTexto;
+    botonCopiar.onclick = copiar;
+    botonBorrar.onclick = borrar;
+
+    function esValido(texto){
+
+    let respuesta = true;
+    let ascii;
+    const textoDescompuesto = descomponerTexto(texto);
+
+    // validar mayúsculas y carácteres especiales
+    for(let i = 0; i < textoDescompuesto.length; i++){
+        if(textoDescompuesto[i] != " "){
+            if(textoDescompuesto[i] === textoDescompuesto[i].toUpperCase())
+                respuesta = false;
+            ascii = textoDescompuesto[i].charCodeAt(0);
+            if(ascii < 64 && ascii > 91)
+                respuesta = false;
+        }
+    }
+
+    return respuesta;
+    }
+
+    function encriptarTexto(){ 
+
+        let texto = mensajeEntrada.value;
+
+        if(esValido(texto)){
+            texto = texto.replaceAll("e", "enter");
+            texto = texto.replaceAll("o", "ober");
+            texto = texto.replaceAll("u", "uaft");
+            texto = texto.replaceAll("i", "imes");
+            texto = texto.replaceAll("a", "ai");
+        } else
+        texto = "Texto inválido";
+        
+        mensajeSalida.value = texto;
+    }
+
+    function desencriptarTexto(){
+
+        let texto = mensajeEntrada.value;
+
+        texto = texto.replaceAll("enter", "e"); 
+        texto = texto.replaceAll("ober", "o");
+        texto = texto.replaceAll("uaft", "u");
+        texto = texto.replaceAll("imes", "i");
+        texto = texto.replaceAll("ai", "a");
+
+        mensajeSalida.value = texto;
+    }
+
+    function descomponerTexto(texto){
+        return texto.split('');
+    }
+
+    function copiar(){
+        let textoCopiado = document.querySelector("#textoEncriptado");
+        textoCopiado.select();
+        document.execCommand("copy");
+    }
+
+    function borrar(){
+        mensajeEntrada.value = "";
+        mensajeSalida.value = "";
+    }
+</script>
